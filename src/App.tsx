@@ -1,11 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import FullWidthTabs from './components/common/Nav';
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>hello</h1>
+    <div>
+      <FullWidthTabs/>
     </div>
   );
 }
