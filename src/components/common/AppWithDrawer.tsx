@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import TemporaryDrawer from './TemporaryDrawer';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import {allEstimations} from './recoilState'
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,11 +21,26 @@ const useStyles = makeStyles(() => ({
 
 const AppWithDrawer: React.FC = () => {
   const classes = useStyles();
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [estimations, setEstimations] = useRecoilState(allEstimations);
+  console.log("🚀 ~ estimations:", estimations)
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
+
+  useEffect(()=>{
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/api/estimations`,
+      responseType: 'json'
+    })
+      .then(function (response) {
+      const estimationData = response.data.Estimations;
+      setEstimations(estimationData)
+        
+      });
+  },[isDrawerOpen])
 
   return (
     <div className={classes.root}>

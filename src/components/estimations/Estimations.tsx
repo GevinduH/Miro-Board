@@ -4,20 +4,20 @@ import DeleteEstimationButton from './DeleteEstimationButton';
 
 interface EstimationsProps {
   onClick: (open: boolean) => void;
-  estimation:string
+  estimation: string;
 }
 
-const Estimations: React.FC<EstimationsProps> = ({ onClick, estimation }: EstimationsProps) =>  {
-    const estimations = [{ id: 1, name: "Estimation 1" }, { id: 2, name: "Estimation 2" }];
+const Estimations: React.FC<EstimationsProps> = ({ onClick, estimation }: EstimationsProps) => {
+  const estimations = [{ id: 1, name: "Estimation 1" }, { id: 2, name: "Estimation 2" }];
 
   return (
     <>
-      <ListItem button onClick={()=>{onClick}}>
+      <ListItem button onClick={() => onClick(true)}> {/* Call the onClick function with true */}
         <ListItemText primary={estimation} />
-        <DeleteEstimationButton/>
+        <DeleteEstimationButton />
       </ListItem>
     </>
   );
-}
+};
 
 export default Estimations;

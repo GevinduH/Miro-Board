@@ -3,6 +3,8 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import EstimationTable from './EstimationTable';
 import axios from 'axios'
 import { WorkItem, AssignedItems } from '../../types';
+import { useRecoilState } from 'recoil';
+import { assignedItemsAtom } from '../common/recoilState';
 
 
 const storyPointMapping: { [key: string]: number } = {
@@ -17,15 +19,15 @@ const storyPointMapping: { [key: string]: number } = {
 };
 
 const EstimationPage: React.FC = () => {
-    const [assignedItems, setAssignedItems] = useState<AssignedItems>({});
-    const year = "24"
+    const [assignedItems, setAssignedItems] = useRecoilState<AssignedItems>(assignedItemsAtom);
+    const year = "y24"
     const quarter = "q2"
     
     
     useEffect(() => {
       axios({
         method: 'get',
-        url: `http://localhost:5000/api/estimations/${year}/${quarter}`,
+        url: `http://localhost:5000/api/estimation/${year}/${quarter}`,
         responseType: 'json'
       })
         .then(function (response) {
