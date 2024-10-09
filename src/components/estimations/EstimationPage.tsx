@@ -2,17 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import EstimationTable from './EstimationTable';
 import axios from 'axios'
+import { WorkItem, AssignedItems } from '../../types';
 
-type WorkItem = {
-    id: string;
-    content: string;
-    text: string;
-    storyPoints: number;
-    workItemNumber: string; 
-    status: string; 
-};
-
-type AssignedItems = { [key: string]: WorkItem[] };
 
 const storyPointMapping: { [key: string]: number } = {
     '1/2': 0.5,
@@ -71,11 +62,11 @@ const EstimationPage: React.FC = () => {
         const draggedItem = sourceList[source.index];
         if (!draggedItem) return;
 
-        const newSourceList = sourceList.filter(item => item.id !== draggedItem.id);
+        const newSourceList = sourceList.filter(item => item._id !== draggedItem._id);
         
         const newDestinationItem = {
             ...draggedItem,
-            storyPoints: storyPointMapping[destination.droppableId], 
+            storyPoints: String(storyPointMapping[destination.droppableId]), 
         };
 
         const newDestinationList = [...destinationList, newDestinationItem];
@@ -87,24 +78,25 @@ const EstimationPage: React.FC = () => {
         }));
     };
 
-    const handleTextChange = (id: string, text: string) => {
+    const handleTextChange = (_id:string, description: string) => {
         setAssignedItems(prev => {
             const updatedItems = Object.entries(prev).map(([key, items]) => {
                 return [
                     key,
-                    items.map(item => (item.id === id ? { ...item, text } : item)),
+                    items.map(item => (item._id === _id ? { ...item, description } : item)), 
                 ] as [string, WorkItem[]];
             });
             return Object.fromEntries(updatedItems);
         });
     };
+    
 
-    const handleStatusChange = (id: string, status: string) => {
+    const handleStatusChange = (_id: string, status: string) => {
         setAssignedItems(prev => {
             const updatedItems = Object.entries(prev).map(([key, items]) => {
                 return [
                     key,
-                    items.map(item => (item.id === id ? { ...item, status } : item)),
+                    items.map(item => (item._id === _id ? { ...item, status } : item)),
                 ] as [string, WorkItem[]];
             });
             return Object.fromEntries(updatedItems);

@@ -7,7 +7,7 @@ interface EstimationsProps {
   estimation:string
 }
 
-function Estimations({ onClick, estimation }: EstimationsProps) {
+const Estimations: React.FC<EstimationsProps> = ({ onClick, estimation }: EstimationsProps) =>  {
     const estimations = [{ id: 1, name: "Estimation 1" }, { id: 2, name: "Estimation 2" }];
 
   return (

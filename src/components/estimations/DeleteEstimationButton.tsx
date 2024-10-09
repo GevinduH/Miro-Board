@@ -3,7 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EstimationDeleteModal from './EstimationDeleteModal';
 import { useRecoilState } from 'recoil';
-import { isButtonClickedState } from './recoilState';
+import { isButtonClickedState } from '../common/recoilState';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

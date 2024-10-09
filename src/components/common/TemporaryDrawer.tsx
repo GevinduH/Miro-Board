@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
 import AddEstimationButton from './AddEstimationButton';
-import Estimations from './Estimations';
+import Estimations from '../estimations/Estimations';
 
 interface TemporaryDrawerProps {
   isOpen: boolean;

@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import DraggableCard from './DraggableCard'; 
+import DraggableCard from './DraggableCard';
+import { ProductEnum } from '../../types';
+ProductEnum
+
 
 const EstimationBoard: React.FC = () => {
   const [items, setItems] = useState([
-    { id: '1', content: 'Work Item 1', storyPoints: 3, text: '', workItemNumber: 'W1', status: 'OKR' },
-    { id: '2', content: 'Work Item 2', storyPoints: 5, text: '', workItemNumber: 'W2', status: 'Board' },
-    { id: '3', content: 'Work Item 3', storyPoints: 8, text: '', workItemNumber: 'W3', status: 'Waiting' },
+      {
+        description: "Upgrade SIM platform to support 5G",
+        product: ProductEnum.SIM,
+        status: 'OKR',
+        workItemNumber: 22334,
+        assigned: true,
+        storyPoints: "13",
+        _id: "67067356707e5be253a1802f"
+      },
+      {
+        description: "Launch new marketing campaign for NAPP",
+        product: ProductEnum.NAPP,
+        status: "Board",
+        assigned: false,
+        storyPoints: "3",
+        _id: "67067356707e5be253a18030",
+        workItemNumber: 22334
+      },
+      {
+        description: "Create VAS feature for international roaming",
+        product: ProductEnum.VAS,
+        status: 'Waiting',
+        workItemNumber: 87654,
+        assigned: false,
+        storyPoints: "8",
+        _id: "67067356707e5be253a18031"
+      },
+  
   ]);
 
   const onDragEnd = (result: DropResult) => {
@@ -23,17 +51,16 @@ const EstimationBoard: React.FC = () => {
     setItems(newItems);
   };
 
-  // Handler for text changes in DraggableCard
   const onTextChange = (id: string, text: string) => {
     setItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, text } : item))
+      prevItems.map((item) => (item._id === id ? { ...item, text } : item))
     );
   };
 
-  // Handler for status changes in DraggableCard
+
   const onStatusChange = (id: string, status: string) => {
     setItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, status } : item))
+      prevItems.map((item) => (item._id === id ? { ...item, status } : item))
     );
   };
 
@@ -48,16 +75,17 @@ const EstimationBoard: React.FC = () => {
           >
             {items.map((item, index) => (
               <DraggableCard
-                key={item.id}
-                id={item.id}
-                content={item.content}
-                text={item.text} // Pass text prop
-                storyPoints={item.storyPoints} // Pass story points
-                workItemNumber={item.workItemNumber} // Pass work item number
-                status={item.status} // Pass status
-                index={index}
-                onTextChange={onTextChange} // Pass the text change handler
-                onStatusChange={onStatusChange} // Pass the status change handler
+              key={item._id}
+              _id={item._id}
+              description={item.description}
+              storyPoints={item.storyPoints}
+              workItemNumber={item.workItemNumber}
+              status={item.status}
+              index={index}
+              onTextChange={onTextChange}
+              onStatusChange={onStatusChange} 
+              product={item.product} 
+              assigned={item.assigned} 
               />
             ))}
             {provided.placeholder}

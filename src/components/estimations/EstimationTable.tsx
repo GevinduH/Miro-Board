@@ -1,20 +1,21 @@
-import React from 'react';
+import React from 'react'; 
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import DraggableCard from './DraggableCard';
+import { AssignedItems } from '../../types';
 
-type WorkItem = { id: string; content: string; text: string; storyPoints: number; workItemNumber: string; status: string };
-type AssignedItems = { [key: string]: WorkItem[] };
 
 interface EstimationTableProps {
     assignedItems: AssignedItems;
-    onTextChange: (id: string, text: string) => void;
-    onStatusChange: (id: string, status: string) => void; 
+    onTextChange: (_id: string, description: string) => void;
+    onStatusChange: (_id: string, status: string) => void;
 }
 
+
 const EstimationTable: React.FC<EstimationTableProps> = ({ assignedItems, onTextChange, onStatusChange }) => {
-  console.log("🚀 ~ assignedItems:", assignedItems)
-  const fibonacciStoryPoints = ['1/2', '1', '2', '3', '5', '8', '13', '20', '>20']
+    console.log("🚀 ~ assignedItems:", assignedItems);
+    const fibonacciStoryPoints = ['1/2', '1', '2', '3', '5', '8', '13', '20', '>20'];
+
     return (
         <Paper>
             <Typography variant="h6" align="center" gutterBottom>
@@ -45,17 +46,17 @@ const EstimationTable: React.FC<EstimationTableProps> = ({ assignedItems, onText
                                     >
                                         {assignedItems[point]?.map((item, index) => (
                                             <DraggableCard
-                                                key={item.id}
-                                                id={item.id}
-                                                content={item.content}
-                                                text={item.text}
-                                                storyPoints={item.storyPoints} 
-                                                workItemNumber={item.workItemNumber} 
-                                                status={item.status} 
-                                                index={index} 
-                                                onTextChange={onTextChange} 
+                                                key={item._id}
+                                                _id={item._id}
+                                                description={item.description}
+                                                storyPoints={item.storyPoints}
+                                                workItemNumber={item.workItemNumber}
+                                                status={item.status}
+                                                index={index}
+                                                onTextChange={onTextChange}
                                                 onStatusChange={onStatusChange} 
-                                            />
+                                                product={item.product} 
+                                                assigned={item.assigned}                                            />
                                         ))}
                                         {provided.placeholder}
                                     </TableCell>

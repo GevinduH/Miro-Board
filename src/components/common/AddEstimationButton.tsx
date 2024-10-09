@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import AddEstimationModal from './AddEstimationModal';
 import {IsAddEstimationButtonclicked} from './recoilState'
 import { useRecoilState } from 'recoil';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

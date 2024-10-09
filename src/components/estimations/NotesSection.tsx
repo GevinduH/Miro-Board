@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 interface NotesSectionProps {
