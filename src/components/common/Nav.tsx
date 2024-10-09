@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Rules from '../rules/Rules';
 import AppWithDrawer from './AppWithDrawer';
 import { useLocation, useNavigate } from 'react-router-dom';
-import EstimationTable from '../estimations/EstimationTable';
+import EstimationPage from '../estimations/EstimationPage';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -128,7 +128,7 @@ export default function FullWidthTabs() {
           <Rules/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <EstimationTable/>
+          <EstimationPage/>
         </TabPanel>
       </SwipeableViews>
     </div>

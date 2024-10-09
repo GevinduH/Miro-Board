@@ -8,11 +8,13 @@ interface EstimationsProps {
 }
 
 function Estimations({ onClick, estimation }: EstimationsProps) {
+    const estimations = [{ id: 1, name: "Estimation 1" }, { id: 2, name: "Estimation 2" }];
+
   return (
     <>
       <ListItem button onClick={()=>{onClick}}>
         <ListItemText primary={estimation} />
-        <DeleteEstimationButton />
+        <DeleteEstimationButton/>
       </ListItem>
     </>
   );
