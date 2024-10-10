@@ -8,6 +8,7 @@ import TemporaryDrawer from './TemporaryDrawer';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import {allEstimations} from './recoilState'
+import { useNavigate } from 'react-router-dom';
 
 
 const useStyles = makeStyles(() => ({
@@ -23,24 +24,35 @@ const AppWithDrawer: React.FC = () => {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [estimations, setEstimations] = useRecoilState(allEstimations);
+  const navigate = useNavigate();
   console.log("🚀 ~ estimations:", estimations)
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
 
-  useEffect(()=>{
-    axios({
-      method: 'get',
-      url: `http://localhost:5000/api/estimations`,
-      responseType: 'json'
-    })
-      .then(function (response) {
-      const estimationData = response.data.Estimations;
-      setEstimations(estimationData)
-        
-      });
-  },[isDrawerOpen])
+  useEffect(() => {
+     
+    const fetchEstimations = async () => {
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `http://localhost:5000/api/estimations/`,
+          responseType: 'json',
+        });
+  
+        const estimationData = response.data.Estimations;
+        setEstimations(estimationData);
+      } catch (error) {
+        console.error("Error fetching all estimations:", error);
+        navigate('/estimations/error');
+      }
+    };
+  
+    if (isDrawerOpen) {
+      fetchEstimations();
+    }
+  }, [isDrawerOpen]);
 
   return (
     <div className={classes.root}>

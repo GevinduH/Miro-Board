@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListItem, ListItemText } from '@material-ui/core';
 import DeleteEstimationButton from './DeleteEstimationButton';
+import { useNavigate } from 'react-router-dom';
 
 interface EstimationsProps {
   onClick: (open: boolean) => void;
@@ -8,11 +9,10 @@ interface EstimationsProps {
 }
 
 const Estimations: React.FC<EstimationsProps> = ({ onClick, estimation }: EstimationsProps) => {
-  const estimations = [{ id: 1, name: "Estimation 1" }, { id: 2, name: "Estimation 2" }];
-
+  const navigate = useNavigate()
   return (
     <>
-      <ListItem button onClick={() => onClick(true)}> {/* Call the onClick function with true */}
+      <ListItem button onClick={() => onClick(true)}> 
         <ListItemText primary={estimation} />
         <DeleteEstimationButton />
       </ListItem>

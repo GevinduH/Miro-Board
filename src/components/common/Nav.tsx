@@ -6,10 +6,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Rules from '../rules/Rules';
+import Rules from '../pages/Rules';
 import AppWithDrawer from './AppWithDrawer';
 import { useLocation, useNavigate } from 'react-router-dom';
-import EstimationPage from '../estimations/EstimationPage';
+import EstimationPage from '../pages/EstimationPage';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -72,9 +72,10 @@ export default function FullWidthTabs() {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(location.pathname)
     if (location.pathname === '/rules') {
       setValue(0);
-    } else if (location.pathname === '/estimations') {
+    } else if (location.pathname.includes('estimation')) {
       setValue(1); 
     }
   }, [location.pathname]);

@@ -5,8 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil'; 
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import Rules from './components/rules/Rules';
-import EstimationPage from './components/estimations/EstimationPage';
+import Rules from './components/pages/Rules';
+import EstimationPage from './components/pages/EstimationPage';
+import ErrorPage from './components/pages/ErrorPage';
+
 
 
 const router =  createBrowserRouter([
@@ -15,7 +17,9 @@ const router =  createBrowserRouter([
   element:<App/>,
   children: [
     { path: 'rules', element: <Rules /> },
-    { path: 'estimations', element: <EstimationPage /> }
+    { path: 'estimations', element: <EstimationPage /> },
+    { path: 'estimations/:year/:quarter', element: <EstimationPage /> },
+    { path: 'estimations/error', element: <ErrorPage/> }
   ],
 }
 ])

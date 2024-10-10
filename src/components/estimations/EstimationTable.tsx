@@ -13,7 +13,6 @@ interface EstimationTableProps {
 
 
 const EstimationTable: React.FC<EstimationTableProps> = ({ assignedItems, onTextChange, onStatusChange }) => {
-    console.log("🚀 ~ assignedItems:", assignedItems);
     const fibonacciStoryPoints = ['1/2', '1', '2', '3', '5', '8', '13', '20', '>20'];
 
     return (

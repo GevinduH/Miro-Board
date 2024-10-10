@@ -40,3 +40,8 @@
   justify-content: flex-start;
   align-items:flex-start
 } */
+
+.estimationsInNav {
+  text-decoration: none;
+  text-decoration-color: none;
+}

@@ -1,4 +1,4 @@
-import SimpleCard from "./Card";
+import SimpleCard from "../rules/Card";
 import React from 'react';
 import { Box } from "@material-ui/core";
 

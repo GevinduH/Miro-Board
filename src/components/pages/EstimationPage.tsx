@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import EstimationTable from './EstimationTable';
-import axios from 'axios'
+import EstimationTable from '../estimations/EstimationTable';
 import { WorkItem, AssignedItems } from '../../types';
 import { useRecoilState } from 'recoil';
 import { assignedItemsAtom } from '../common/recoilState';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 
 const storyPointMapping: { [key: string]: number } = {
@@ -15,40 +16,46 @@ const storyPointMapping: { [key: string]: number } = {
     '5': 5,
     '8': 8,
     '13': 13,
-    '20': 20
+    '20': 20,
+    '>21':21
 };
 
 const EstimationPage: React.FC = () => {
     const [assignedItems, setAssignedItems] = useRecoilState<AssignedItems>(assignedItemsAtom);
-    const year = "y24"
-    const quarter = "q2"
-    
+    const { year, quarter } = useParams();
+    const navigate = useNavigate()
     
     useEffect(() => {
-      axios({
-        method: 'get',
-        url: `http://localhost:5000/api/estimation/${year}/${quarter}`,
-        responseType: 'json'
-      })
-        .then(function (response) {
-          console.log("🚀 ~ response:", response)
-        const estimationData = response.data.items;
-        const newAssignedItems: AssignedItems = {};
-
-        estimationData.forEach((item: WorkItem) => {
-            const storyPointKey = String(item.storyPoints);
-            if (!newAssignedItems[storyPointKey]) {
+        const fetchEstimations = async () => {
+          try {
+            const response = await axios({
+              method: 'get',
+              url: `http://localhost:5000/api/estimations/${year}/${quarter}`,
+              responseType: 'json',
+            });
+    
+            const estimationData = response.data.items;
+            const newAssignedItems: AssignedItems = {};
+    
+            estimationData.forEach((item: WorkItem) => {
+              const storyPointKey = String(item.storyPoints);
+              if (!newAssignedItems[storyPointKey]) {
                 newAssignedItems[storyPointKey] = [];
-            }
-            newAssignedItems[storyPointKey].push(item);
-          });
-          
-  
-          setAssignedItems(newAssignedItems);
-        });
-      },[])
+              }
+              newAssignedItems[storyPointKey].push(item);
+            });
+    
+            setAssignedItems(newAssignedItems);
+          } catch (error) {
+            console.error("Error fetching estimations:", error);
+            navigate(`/estimations/error`);
+          }
+        };
+        
+        fetchEstimations();
+        
+      }, [year, quarter]);
       
-      console.log("🚀 ~ assignedItems:", assignedItems)
     const handleDragEnd = (result: DropResult) => {
         const { source, destination } = result;
 
@@ -57,7 +64,6 @@ const EstimationPage: React.FC = () => {
           return;
       }
       
-        const teest = assignedItems
         const sourceList = assignedItems[source.droppableId] || [];
         const destinationList = assignedItems[destination.droppableId] || [];
 
