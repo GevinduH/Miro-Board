@@ -9,8 +9,8 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import {allEstimations} from './recoilState'
 import { useNavigate } from 'react-router-dom';
-
-
+import { Button, Snackbar } from '@material-ui/core';
+ 
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
@@ -24,6 +24,9 @@ const AppWithDrawer: React.FC = () => {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [estimations, setEstimations] = useRecoilState(allEstimations);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+ 
   const navigate = useNavigate();
   console.log("🚀 ~ estimations:", estimations)
 
@@ -45,7 +48,8 @@ const AppWithDrawer: React.FC = () => {
         setEstimations(estimationData);
       } catch (error) {
         console.error("Error fetching all estimations:", error);
-        navigate('/estimations/error');
+        setSnackbarMessage('Something went wrong while loading estimations.');
+        setSnackbarOpen(true);
       }
     };
   
@@ -53,6 +57,13 @@ const AppWithDrawer: React.FC = () => {
       fetchEstimations();
     }
   }, [isDrawerOpen]);
+
+  const handleCloseSnackbar = (event: React.SyntheticEvent | null, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -70,6 +81,17 @@ const AppWithDrawer: React.FC = () => {
         </Toolbar>
       </AppBar>
       <TemporaryDrawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        action={
+          <Button color="inherit" onClick={handleCloseSnackbar}>
+            Close
+          </Button>
+        }
+      />
     </div>
   );
 };

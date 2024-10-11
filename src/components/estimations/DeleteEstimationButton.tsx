@@ -2,9 +2,7 @@ import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EstimationDeleteModal from './EstimationDeleteModal';
-import { useRecoilState } from 'recoil';
-import { isButtonClickedState } from '../common/recoilState';
-import React from 'react';
+import React, { useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,17 +12,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function DeleteEstimationButton() {
+function DeleteEstimationButton({estimation,id}:{estimation:string, id:string}) {
   const classes = useStyles();
-  const [IsButtonClicked, setIsButtonClicked] = useRecoilState(isButtonClickedState); 
+  const [IsButtonClicked, setIsButtonClicked] = useState<boolean>(false);
 
-  const handleDelete = (e:any) => {
-    e.stopPropagation()
-    setIsButtonClicked(true); 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsButtonClicked(true);
   };
 
   const handleClose = () => {
-    setIsButtonClicked(false); 
+    setIsButtonClicked(false);
   };
 
   return (
@@ -37,7 +35,7 @@ function DeleteEstimationButton() {
       >
         <DeleteIcon />
       </Button>
-      <EstimationDeleteModal open={IsButtonClicked} onClose={handleClose} />
+      <EstimationDeleteModal open={IsButtonClicked} onClose={handleClose} estimation={estimation} id={id}/>
     </>
   );
 }

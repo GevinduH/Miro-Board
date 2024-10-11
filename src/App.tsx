@@ -11,7 +11,6 @@ function App() {
         <Routes>
           <Route path="/*" element={<FullWidthTabs />} />
           <Route path="/estimations/error" element={<ErrorPage />} />
-          {/* Catch-all route for any undefined paths */}
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import axios from 'axios';
+import { Button, Snackbar } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -30,24 +33,58 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function EstimationDeleteModal({ open, onClose }: { open: boolean, onClose: () => void }) {
+export default function EstimationDeleteModal({ id,open, onClose,estimation }: { open: boolean, onClose: () => void , estimation:string,id:string}) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const navigate = useNavigate()
+
+  const onClickYes = async (e: React.MouseEvent) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/estimations/delete/${id}`);
+      console.log('Estimation created:', response.data);
+      setSnackbarMessage('Estimation deleted');
+      setSnackbarOpen(true); 
+      onClose();
+    } catch (error) {
+      console.error('Error deleting estimation:', error);
+    }
+  }
+
+  const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Delete Estimation</h2>
       <p id="simple-modal-description">
-        Are you sure you want to delete the estimation YXQX?
+        Are you sure you want to delete the estimation {estimation}?
       </p>
       <div className='inputsInTheModal'>
         <button type="button" onClick={onClose}>
             No
         </button>
-        <button type="button" onClick={onClose}>
+        <button type="button" onClick={onClickYes}>
             Yes
         </button>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={snackbarOpen}
+        autoHideDuration={3000} 
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        action={
+          <Button color="inherit" size="small" onClick={handleCloseSnackbar}>
+            Close
+          </Button>
+        }
+      />
     </div>
   );
 

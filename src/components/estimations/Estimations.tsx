@@ -1,20 +1,24 @@
 import React from 'react';
 import { ListItem, ListItemText } from '@material-ui/core';
 import DeleteEstimationButton from './DeleteEstimationButton';
-import { useNavigate } from 'react-router-dom';
 
 interface EstimationsProps {
-  onClick: (open: boolean) => void;
+  onClick: (e: React.MouseEvent) => void;
   estimation: string;
+  id:string
 }
 
-const Estimations: React.FC<EstimationsProps> = ({ onClick, estimation }: EstimationsProps) => {
-  const navigate = useNavigate()
+const Estimations: React.FC<EstimationsProps> = ({ id, onClick, estimation }: EstimationsProps) => {
+
+  const handleEstimationClick = (e: React.MouseEvent) => {
+    onClick(e); 
+  };
+
   return (
     <>
-      <ListItem button onClick={() => onClick(true)}> 
+      <ListItem button onClick={handleEstimationClick}>
         <ListItemText primary={estimation} />
-        <DeleteEstimationButton />
+        <DeleteEstimationButton estimation={estimation} id={id}/>
       </ListItem>
     </>
   );

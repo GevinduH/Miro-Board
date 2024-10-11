@@ -20,7 +20,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   _id,
   description,
   storyPoints,
+  product,
   workItemNumber,
+  assigned,
   status,
   index,
   onTextChange,
@@ -48,24 +50,24 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   }
 
   return (
-    <Draggable draggableId={_id} index={index}> 
-      {(provided) => (
-        <Card
-          className="workItemCard"
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          style={{
-            ...provided.draggableProps.style,
-            marginBottom: '8px',
-            backgroundColor: getBackgroundColor(status),
-            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-            width: '210px',
-          }}
-        >
+    <Draggable draggableId={_id} index={index}>
+    {(provided) => (
+      <Card
+        className="workItemCard"
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={{
+          ...provided.draggableProps.style,
+          marginBottom: '8px',
+          backgroundColor: getBackgroundColor(status),
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+          width: '210px',
+        }}
+      >
           <CardContent>
             <Typography variant="body2">Work Item Number: {workItemNumber}</Typography>
-            <Typography variant="body2">Story Points: {storyPoints}</Typography>
+            <Typography variant="body2"> Product: {product}</Typography>
             <Select
               value={status}
               onChange={(e: React.ChangeEvent<{ value: unknown }>) =>
