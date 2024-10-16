@@ -50,7 +50,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   }
 
   return (
-    <Draggable draggableId={_id} index={index}>
+    <Draggable draggableId={_id} key={_id} index={index}>
     {(provided) => (
       <Card
         className="workItemCard"

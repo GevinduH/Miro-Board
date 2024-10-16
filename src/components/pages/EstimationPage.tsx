@@ -55,7 +55,7 @@ const EstimationPage: React.FC = () => {
         };
 
         fetchEstimations();
-    }, [year, quarter, setAssignedItems, navigate]);
+    }, [year, quarter]);
 
     const handleDragEnd = (result: DropResult) => {
         const { source, destination } = result;
@@ -68,8 +68,10 @@ const EstimationPage: React.FC = () => {
             return;
         }
     
+        
         const newAssignedItems = { ...assignedItems };
-    
+        
+        
         if (!newAssignedItems[destination.droppableId]) {
             newAssignedItems[destination.droppableId] = [];
         }
@@ -92,6 +94,14 @@ const EstimationPage: React.FC = () => {
             newUnassignedItems.splice(destination.index, 0, movedItem);
             setUnassignedItems(newUnassignedItems);
         }
+        
+        const draggedItem = newAssignedItems[source.droppableId][source.index];
+        const updatedAssignedItems = {...newAssignedItems, [source.droppableId]: (newAssignedItems[source.droppableId]).filter((_, index) => index !== source.index)};
+        const updatedDestinationList = [...newAssignedItems[destination.droppableId], draggedItem];
+        setAssignedItems({
+            ...updatedAssignedItems,
+            [destination.droppableId]: updatedDestinationList,
+        });
     };
     
 

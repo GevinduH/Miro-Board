@@ -38,7 +38,7 @@ const ErrorPage: React.FC = () => {
     <div className={classes.container}>
       <Typography variant="h1" className={classes.title}>
         Oops! Something went wrong. <br/>
-        Select A Estimation from the Menu! 
+        Select a Estimation from the Menu! 
       </Typography>
       <Button 
         variant="contained" 
